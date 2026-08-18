@@ -28,11 +28,8 @@
 
 .projectList {
   width: 100%;
-  max-width: 1040px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 72px;
   padding: 12px 0 80px;
   box-sizing: border-box;
@@ -40,16 +37,15 @@
 
 .projectItem {
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 20px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
   width: 100%;
 }
 
 .projectItemMeta {
-  width: 200px;
-  flex-shrink: 0;
-  text-align: right;
+  width: 100%;
+  text-align: left;
 }
 
 .projectItemTitle {
@@ -72,9 +68,9 @@
 }
 
 .projectItemMedia {
-  width: 720px;
+  width: 100%;
   max-width: 720px;
-  flex-shrink: 0;
+  margin: 0 auto;
 }
 
 .projectItemImage {
@@ -91,21 +87,33 @@
   background: rgba(0, 0, 0, 0.04);
 }
 
-@media (max-width: 960px) {
+@media (min-width: 641px) and (max-width: 1024px) {
+  .projectItemMedia {
+    width: 350px;
+    max-width: 350px;
+  }
+}
+
+@media (min-width: 1025px) {
   .projectItem {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 650px minmax(0, 1fr);
+    column-gap: 20px;
+    align-items: start;
   }
 
   .projectItemMeta {
-    width: 100%;
-    text-align: left;
+    grid-column: 1;
+    justify-self: end;
+    width: 200px;
+    max-width: 100%;
+    text-align: right;
   }
 
   .projectItemMedia {
-    width: 100%;
-    max-width: 720px;
-    margin: 0 auto;
+    grid-column: 2;
+    width: 650px;
+    max-width: 650px;
+    margin: 0;
   }
 }
