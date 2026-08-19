@@ -8,6 +8,7 @@ function withImageUrl(row) {
   return {
     ...row,
     image_url: publicImageUrl(row.bucket_name, row.path_name),
+    icon_url: publicImageUrl(row.icon_bucket_name, row.icon_path_name),
   };
 }
 
@@ -18,7 +19,8 @@ const WRITABLE_COLUMNS = [
   "person_id",
   "status_code",
   "final_date",
-  "file_content_id",
+  "image_file_content_id",
+  "icon_file_content_id",
   "is_hidden",
   "created_by",
   "modified_by",
@@ -57,8 +59,16 @@ async function findById(id) {
 async function create(data) {
   const payload = pickWritable(data);
 
-  if (!payload.title || payload.location_id == null || payload.typology_id == null) {
-    const error = new Error("title, location_id, and typology_id are required");
+  if (
+    !payload.title ||
+    payload.location_id == null ||
+    payload.typology_id == null ||
+    payload.image_file_content_id == null ||
+    payload.icon_file_content_id == null
+  ) {
+    const error = new Error(
+      "title, location_id, typology_id, image_file_content_id, and icon_file_content_id are required",
+    );
     error.statusCode = 400;
     throw error;
   }

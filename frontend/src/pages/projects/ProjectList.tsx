@@ -8,6 +8,7 @@ type ProjectApiRow = {
   title: string
   location_label_en: string | null
   image_url: string | null
+  icon_url: string | null
 }
 
 function toListItem(row: ProjectApiRow): ProjectListItem {
@@ -16,6 +17,7 @@ function toListItem(row: ProjectApiRow): ProjectListItem {
     title: row.title,
     locationLabel: row.location_label_en?.trim() ?? '',
     imageUrl: row.image_url,
+    iconUrl: row.icon_url,
   }
 }
 

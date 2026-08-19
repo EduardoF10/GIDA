@@ -1,0 +1,25 @@
+---
+description: Default UUID for Supabase inserts with UUID columns
+alwaysApply: true
+---
+
+# Default UUID for Supabase inserts
+
+When inserting a record into a Supabase table, if a UUID column must be populated (`created_by`, `modified_by`, or any other required UUID that is not generated), use this value unless the user specifies a different id:
+
+```text
+ec092de5-1bd7-4321-ba9c-f8cbfccb5341
+```
+
+```sql
+-- ✅ GOOD
+insert into catalog.file_extension (code, value, created_by, modified_by)
+values (7, '.svg', 'ec092de5-1bd7-4321-ba9c-f8cbfccb5341', 'ec092de5-1bd7-4321-ba9c-f8cbfccb5341');
+
+-- ❌ BAD — invented or omitted UUID when the column needs a value
+insert into catalog.file_extension (code, value, created_by, modified_by)
+values (7, '.svg', gen_random_uuid(), gen_random_uuid());
+```
+
+- Do not use this as a generated primary key
+- Do not replace a UUID the user explicitly provides
