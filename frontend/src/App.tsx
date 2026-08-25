@@ -20,9 +20,10 @@ function App() {
       <Tabs />
       <main className="pageContent">
         <Routes>
-          <Route path="/" element={<About />} />
+          <Route path="/" element={<Navigate to="/projects" replace />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/architecture" element={<Navigate to="/projects" replace />} />
+          <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/people" element={<People />} />
           <Route path="/interiors" element={<Navigate to="/services" replace />} />

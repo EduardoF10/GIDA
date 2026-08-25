@@ -18,11 +18,6 @@
   color: #000000;
   cursor: pointer;
   box-shadow: none;
-  transition: opacity 0.15s ease;
-}
-
-.tabMenuButton:hover {
-  opacity: 0.65;
 }
 
 .tabMenuLogo {
@@ -31,6 +26,43 @@
   height: auto;
   max-height: var(--app-logo-max-height);
   color: var(--color-brand);
+  overflow: visible;
+}
+
+/* BIG-style maze: letter strokes erase, then shared bars grow to full width. */
+.tabMenuLogo .appIconPlain__hLeft,
+.tabMenuLogo .appIconPlain__hRight,
+.tabMenuLogo .appIconPlain__cBowl {
+  transition: stroke-dasharray 0.3s ease-in-out;
+}
+
+.tabMenuLogo .appIconPlain__barTop,
+.tabMenuLogo .appIconPlain__barMid,
+.tabMenuLogo .appIconPlain__barBot {
+  transition: stroke-dasharray 0.2s ease-in-out;
+}
+
+.tabMenuButton:hover .tabMenuLogo .appIconPlain__hLeft,
+.tabMenuButton:hover .tabMenuLogo .appIconPlain__hRight,
+.tabMenuButton:hover .tabMenuLogo .appIconPlain__cBowl,
+.tabMenuButton[aria-expanded='true'] .tabMenuLogo .appIconPlain__hLeft,
+.tabMenuButton[aria-expanded='true'] .tabMenuLogo .appIconPlain__hRight,
+.tabMenuButton[aria-expanded='true'] .tabMenuLogo .appIconPlain__cBowl {
+  stroke-dasharray: 0 300;
+}
+
+.tabMenuButton:hover .tabMenuLogo .appIconPlain__barTop,
+.tabMenuButton:hover .tabMenuLogo .appIconPlain__barBot,
+.tabMenuButton[aria-expanded='true'] .tabMenuLogo .appIconPlain__barTop,
+.tabMenuButton[aria-expanded='true'] .tabMenuLogo .appIconPlain__barBot {
+  stroke-dasharray: 0 0 133 0;
+  transition-delay: 0.2s;
+}
+
+.tabMenuButton:hover .tabMenuLogo .appIconPlain__barMid,
+.tabMenuButton[aria-expanded='true'] .tabMenuLogo .appIconPlain__barMid {
+  stroke-dasharray: 133 0;
+  transition-delay: 0.2s;
 }
 
 .intro-splash-active .tabMenuLogo {
@@ -107,6 +139,11 @@
 
   .tabMenuDrawer {
     --tab-drawer-ms: 0.01ms;
+  }
+
+  .tabMenuLogo path {
+    transition-duration: 0.01ms;
+    transition-delay: 0s;
   }
 }
 

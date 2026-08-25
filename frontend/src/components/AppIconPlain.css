@@ -1,0 +1,18 @@
+/* Rest dasharrays: only the letter-shaped segments of each full bar are painted. */
+.appIconPlain__hLeft,
+.appIconPlain__hRight {
+  stroke-dasharray: 85 0;
+}
+
+.appIconPlain__cBowl {
+  stroke-dasharray: 116.26 0;
+}
+
+.appIconPlain__barTop,
+.appIconPlain__barBot {
+  stroke-dasharray: 0 73 23 200;
+}
+
+.appIconPlain__barMid {
+  stroke-dasharray: 60 200;
+}
