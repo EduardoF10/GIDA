@@ -33,6 +33,10 @@
   color: var(--color-brand);
 }
 
+.intro-splash-active .tabMenuLogo {
+  visibility: hidden;
+}
+
 .tabMenuBackdrop {
   position: fixed;
   inset: 0;

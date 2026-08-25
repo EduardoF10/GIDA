@@ -1,6 +1,9 @@
 .introSplash {
+  --intro-fly-ms: 1600ms;
+  --intro-ease: cubic-bezier(0.58, 0, 0.32, 1);
   --intro-slide-ms: 2200ms;
-  --intro-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --intro-slide-ease: cubic-bezier(0.32, 1, 0.25, 1);
+  --intro-color-ms: 600ms;
   position: fixed;
   top: 0;
   left: 0;
@@ -16,26 +19,40 @@
   margin: 0;
   padding: 24px;
   box-sizing: border-box;
-  background: var(--color-brand);
+  overflow: hidden;
+  background: transparent;
   color: #ffffff;
-  transform: translate3d(0, 0, 0);
-  transition-property: transform;
-  transition-duration: 0s;
   pointer-events: auto;
 }
 
-.introSplash.introSplash--exit {
-  transform: translate3d(0, -100%, 0);
+.introSplash--exit {
+  pointer-events: none;
+}
+
+.introSplash__backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--color-brand);
+  transform: translate3d(0, 0, 0);
+  transition-property: transform;
+  transition-duration: 0s;
+}
+
+.introSplash--slide .introSplash__backdrop {
+  transform: translate3d(0, -105%, 0);
   transition-duration: var(--intro-slide-ms);
-  transition-timing-function: var(--intro-ease);
+  transition-timing-function: var(--intro-slide-ease);
 }
 
 .introSplash__brand {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   width: min(92vw, 360px);
   max-width: 100%;
+  pointer-events: none;
 }
 
 .introSplash__logo {
@@ -44,6 +61,16 @@
   height: auto;
   max-height: var(--app-logo-max-height);
   color: #ffffff;
+  transform-origin: top left;
+  will-change: transform, color;
+  transition-property: color;
+  transition-duration: 0s;
+}
+
+.introSplash--color-fade .introSplash__logo {
+  color: var(--color-brand);
+  transition-duration: var(--intro-color-ms);
+  transition-timing-function: ease;
 }
 
 .introSplash__srOnly {
@@ -59,8 +86,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .introSplash.introSplash--exit {
-    /* Short but visible on refresh with reduced motion */
+  .introSplash {
+    --intro-fly-ms: 380ms;
     --intro-slide-ms: 380ms;
+    --intro-color-ms: 200ms;
   }
 }
