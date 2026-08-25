@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type TransitionEvent } from 'react'
 import { createPortal } from 'react-dom'
-import appIconSrc from '../../assets/app_icon.svg'
+import AppIconPlain from '../../components/AppIconPlain'
 import './IntroSplash.css'
 
 const HOLD_MS = 1500
@@ -81,19 +81,7 @@ export default function IntroSplash() {
     >
       <span className="introSplash__srOnly">Diaz Architects</span>
       <div className="introSplash__brand" aria-hidden>
-        <img
-          className="introSplash__logo"
-          src={appIconSrc}
-          alt=""
-          width={95}
-          height={95}
-          decoding="async"
-          fetchPriority="high"
-        />
-        <div className="introSplash__copy">
-          <span className="introSplash__diaz">DIAZ</span>
-          <span className="introSplash__tagline">ARCHITECTS</span>
-        </div>
+        <AppIconPlain className="introSplash__logo" />
       </div>
     </div>,
     document.body,

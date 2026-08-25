@@ -1,19 +1,27 @@
 .topTabs {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 50;
-  background: #ffffff;
+  background: transparent;
+  pointer-events: none;
 }
 
 .topTabsInner {
-  max-width: 1120px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   padding: 0 14px;
+  pointer-events: none;
 }
 
 .topTabsInner--compact {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  min-height: 52px;
+  min-height: 84px;
+}
+
+.topTabsInner--compact > * {
+  pointer-events: auto;
 }

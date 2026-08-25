@@ -1,9 +1,7 @@
-export const COMPACT_NAV_QUERY = '(max-width: 1000px)'
-
 export const TAB_ITEMS = [
+  { to: '/projects', end: false, label: 'Projects' },
   { to: '/', end: true as boolean, label: 'About' },
-  { to: '/architecture', end: false, label: 'Architecture' },
-  { to: '/interiors', end: false, label: 'Interiors' },
-  { to: '/designs', end: false, label: 'Designs' },
+  { to: '/services', end: false, label: 'Services' },
+  { to: '/people', end: false, label: 'People' },
   { to: '/contact', end: false, label: 'Contact' },
 ] as const

@@ -14,6 +14,7 @@ function withImageUrl(row) {
 
 const WRITABLE_COLUMNS = [
   "title",
+  "project_type_code",
   "location_id",
   "typology_id",
   "person_id",
@@ -61,13 +62,14 @@ async function create(data) {
 
   if (
     !payload.title ||
+    payload.project_type_code == null ||
     payload.location_id == null ||
     payload.typology_id == null ||
     payload.image_file_content_id == null ||
     payload.icon_file_content_id == null
   ) {
     const error = new Error(
-      "title, location_id, typology_id, image_file_content_id, and icon_file_content_id are required",
+      "title, project_type_code, location_id, typology_id, image_file_content_id, and icon_file_content_id are required",
     );
     error.statusCode = 400;
     throw error;

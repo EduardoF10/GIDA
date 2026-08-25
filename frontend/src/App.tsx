@@ -3,9 +3,9 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import IntroSplash from './pages/intro/IntroSplash.tsx'
 import Tabs from './components/tabs/Tabs.tsx'
 import About from './pages/About.tsx'
-import Architecture from './pages/architecture/Architecture.tsx'
-import Interiors from './pages/Interiors.tsx'
-import Designs from './pages/Designs.tsx'
+import Projects from './pages/projects/Projects.tsx'
+import Services from './pages/Services.tsx'
+import People from './pages/People.tsx'
 import Contact from './pages/Contact.tsx'
 import AdminLogin from './pages/admin/Login.tsx'
 import RequireAdmin from './pages/admin/RequireAdmin.tsx'
@@ -21,9 +21,12 @@ function App() {
       <main className="pageContent">
         <Routes>
           <Route path="/" element={<About />} />
-          <Route path="/architecture" element={<Architecture />} />
-          <Route path="/interiors" element={<Interiors />} />
-          <Route path="/designs" element={<Designs />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/architecture" element={<Navigate to="/projects" replace />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/people" element={<People />} />
+          <Route path="/interiors" element={<Navigate to="/services" replace />} />
+          <Route path="/designs" element={<Navigate to="/people" replace />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<Navigate to="/admin/projects" replace />} />

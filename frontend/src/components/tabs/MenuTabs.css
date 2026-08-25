@@ -5,6 +5,8 @@
 }
 
 .tabMenuButton {
+  position: relative;
+  z-index: 102;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -23,19 +25,12 @@
   opacity: 0.65;
 }
 
-.tabMenuIcon {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  width: 22px;
-}
-
-.tabMenuIcon span {
+.tabMenuLogo {
   display: block;
-  height: 2px;
-  background: #000000;
-  border-radius: 1px;
+  width: var(--app-logo-width);
+  height: auto;
+  max-height: var(--app-logo-max-height);
+  color: var(--color-brand);
 }
 
 .tabMenuBackdrop {
@@ -96,7 +91,7 @@
   flex-direction: column;
   gap: 2px;
   min-width: 0;
-  padding: 16px 0 24px;
+  padding: 84px 0 24px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }

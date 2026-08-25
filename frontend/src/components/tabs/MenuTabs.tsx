@@ -1,5 +1,6 @@
 import { useEffect, useState, type TransitionEvent } from 'react'
 import { NavLink } from 'react-router-dom'
+import AppIconPlain from '../AppIconPlain'
 import { TAB_ITEMS } from './TabNavItems'
 import './MenuTabs.css'
 
@@ -60,11 +61,7 @@ export default function MenuTabs() {
         aria-label={menuOpen ? 'Close menu' : 'Open menu'}
         id="tab-menu-button"
       >
-        <span className="tabMenuIcon" aria-hidden>
-          <span />
-          <span />
-          <span />
-        </span>
+        <AppIconPlain className="tabMenuLogo" />
       </button>
       {drawerMounted ? (
         <>
