@@ -1,4 +1,9 @@
 :root {
+  --color-brand: #23a9aa;
+  --app-logo-width: min(20vw, 74px);
+  --app-logo-max-height: min(16vh, 80px);
+  --app-logo-text-height: min(26vw, 96px);
+  --app-header-height: 114px;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -9,6 +14,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  overflow-y: scroll;
 }
 
 body {

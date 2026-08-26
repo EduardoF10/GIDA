@@ -1,5 +1,8 @@
 import { useEffect, useState, type TransitionEvent } from 'react'
 import { NavLink } from 'react-router-dom'
+import AppIconPlain from '../AppIconPlain'
+import logoText from '../../assets/app_logo_text_header.png'
+import { lockDocumentScroll } from '../../lib/scrollLock'
 import { TAB_ITEMS } from './TabNavItems'
 import './MenuTabs.css'
 
@@ -28,11 +31,7 @@ export default function MenuTabs() {
 
   useEffect(() => {
     if (!drawerMounted) return
-    const prev = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = prev
-    }
+    return lockDocumentScroll()
   }, [drawerMounted])
 
   useEffect(() => {
@@ -60,17 +59,22 @@ export default function MenuTabs() {
         aria-label={menuOpen ? 'Close menu' : 'Open menu'}
         id="tab-menu-button"
       >
-        <span className="tabMenuIcon" aria-hidden>
-          <span />
-          <span />
-          <span />
-        </span>
+        <AppIconPlain className="tabMenuLogo" />
       </button>
+      <img
+        className="tabMenuWordmark"
+        src={logoText}
+        alt="Horacio Diaz & Associates"
+        width={2028}
+        height={378}
+        decoding="async"
+        draggable={false}
+      />
       {drawerMounted ? (
         <>
           <button
             type="button"
-            className={`tabMenuBackdrop${drawerEntered ? ' tabMenuBackdrop--visible' : ''}`}
+            className="tabMenuBackdrop"
             aria-label="Close menu"
             onClick={() => setMenuOpen(false)}
           />

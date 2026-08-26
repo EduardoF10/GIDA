@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <g stroke="currentColor" stroke-width="20" stroke-linecap="round">
+    <line class="filterIcon__bar filterIcon__bar--top" x1="96" y1="140" x2="416" y2="140"/>
+    <line class="filterIcon__bar filterIcon__bar--mid" x1="96" y1="256" x2="416" y2="256"/>
+    <line class="filterIcon__bar filterIcon__bar--bot" x1="96" y1="372" x2="416" y2="372"/>
+  </g>
+  <g fill="white" stroke="currentColor" stroke-width="20">
+    <circle class="filterIcon__knob filterIcon__knob--right" cx="320" cy="140" r="42"/>
+    <circle class="filterIcon__knob filterIcon__knob--left" cx="192" cy="256" r="42"/>
+    <circle class="filterIcon__knob filterIcon__knob--right" cx="320" cy="372" r="42"/>
+  </g>
+</svg>

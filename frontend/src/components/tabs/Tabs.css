@@ -1,19 +1,28 @@
 .topTabs {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: var(--app-scroll-lock-pad, 0px);
   z-index: 50;
   background: #ffffff;
+  pointer-events: auto;
 }
 
 .topTabsInner {
-  max-width: 1120px;
-  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
   padding: 0 14px;
+  background: #ffffff;
 }
 
 .topTabsInner--compact {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  min-height: 52px;
+  min-height: var(--app-header-height);
+}
+
+.topTabsInner--compact > * {
+  pointer-events: auto;
 }
