@@ -5,6 +5,7 @@ const cors = require("cors");
 const express = require("express");
 const pool = require("./db");
 const projectRoutes = require("./routes/projectRoutes");
+const projectTypeRoutes = require("./routes/projectTypeRoutes");
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -17,6 +18,7 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.use("/api/projects", projectRoutes);
+app.use("/api/project-types", projectTypeRoutes);
 
 app.get("/api/hello", async (_req, res) => {
   try {

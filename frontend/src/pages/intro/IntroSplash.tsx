@@ -60,13 +60,18 @@ export default function IntroSplash() {
     if (finishedRef.current) return
     finishedRef.current = true
     document.body.classList.remove('intro-splash-active')
+    document.body.classList.remove('intro-splash-color-fade')
     setMounted(false)
   }, [])
 
   const startColorFade = useCallback(() => {
     if (colorFadingRef.current || finishedRef.current) return
     colorFadingRef.current = true
-    scheduleClass(setColorFading)
+    scheduleClass((on) => {
+      if (finishedRef.current) return
+      if (on) document.body.classList.add('intro-splash-color-fade')
+      setColorFading(on)
+    })
   }, [])
 
   const onBackdropTransitionEnd = useCallback(
@@ -82,6 +87,7 @@ export default function IntroSplash() {
     document.body.classList.add('intro-splash-active')
     return () => {
       document.body.classList.remove('intro-splash-active')
+      document.body.classList.remove('intro-splash-color-fade')
     }
   }, [])
 
@@ -100,15 +106,6 @@ export default function IntroSplash() {
       if (holdTimerRef.current) clearTimeout(holdTimerRef.current)
     }
   }, [])
-
-  useEffect(() => {
-    if (!mounted) return
-    const prev = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = prev
-    }
-  }, [mounted])
 
   useLayoutEffect(() => {
     if (!exiting) return

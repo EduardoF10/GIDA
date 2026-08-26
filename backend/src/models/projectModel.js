@@ -37,14 +37,35 @@ function pickWritable(data = {}) {
   return payload;
 }
 
-async function findAll() {
+async function findByFilters({ typeCode = null, typologyId = null } = {}) {
+  const conditions = ["is_hidden = false"];
+  const values = [];
+
+  if (typeCode != null) {
+    values.push(typeCode);
+    conditions.push(`project_type_code = $${values.length}`);
+  }
+  if (typologyId != null) {
+    values.push(typologyId);
+    conditions.push(`typology_id = $${values.length}`);
+  }
+
   const result = await pool.query(
     `select *
      from entity.projects_v
-     where is_hidden = false
+     where ${conditions.join(" and ")}
      order by final_date desc, created_at desc`,
+    values,
   );
   return result.rows.map(withImageUrl);
+}
+
+async function findAll() {
+  return findByFilters();
+}
+
+async function findByTypeCode(typeCode) {
+  return findByFilters({ typeCode });
 }
 
 async function findById(id) {
@@ -117,6 +138,8 @@ async function remove(id) {
 
 module.exports = {
   findAll,
+  findByFilters,
+  findByTypeCode,
   findById,
   create,
   update,

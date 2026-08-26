@@ -22,10 +22,6 @@
   overflow: hidden;
   background: transparent;
   color: #ffffff;
-  pointer-events: auto;
-}
-
-.introSplash--exit {
   pointer-events: none;
 }
 

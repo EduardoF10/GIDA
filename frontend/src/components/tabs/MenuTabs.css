@@ -2,6 +2,9 @@
 .tabMenuCompact {
   position: relative;
   z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .tabMenuButton {
@@ -27,6 +30,21 @@
   max-height: var(--app-logo-max-height);
   color: var(--color-brand);
   overflow: visible;
+}
+
+.tabMenuWordmark {
+  position: relative;
+  z-index: 102;
+  display: block;
+  height: var(--app-logo-text-height);
+  width: auto;
+  max-width: min(78vw, calc(var(--app-logo-text-height) * 2028 / 378));
+  object-fit: contain;
+  image-rendering: auto;
+  pointer-events: none;
+  user-select: none;
+  opacity: 1;
+  transition: opacity var(--intro-color-ms, 600ms) ease;
 }
 
 /* BIG-style maze: letter strokes erase, then shared bars grow to full width. */
@@ -69,6 +87,14 @@
   visibility: hidden;
 }
 
+.intro-splash-active .tabMenuWordmark {
+  opacity: 0;
+}
+
+.intro-splash-color-fade .tabMenuWordmark {
+  opacity: 1;
+}
+
 .tabMenuBackdrop {
   position: fixed;
   inset: 0;
@@ -76,14 +102,8 @@
   margin: 0;
   padding: 0;
   border: none;
-  background: rgba(0, 0, 0, 0.2);
+  background: transparent;
   cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.38s cubic-bezier(0.32, 0.72, 0, 1);
-}
-
-.tabMenuBackdrop--visible {
-  opacity: 1;
 }
 
 .tabMenuDrawer {
@@ -92,8 +112,8 @@
   /* Total outer width 130px including border + horizontal padding (border-box) */
   --tab-drawer-outer: 130px;
   --tab-drawer-pad-x: 8px;
-  /* Tuned for longest label (e.g. Architecture) in the fixed-width rail */
-  --tab-menu-link-font-size: 9.5px;
+  /* Tuned for longest labels in the fixed-width rail */
+  --tab-menu-link-font-size: 12px;
   box-sizing: border-box;
   position: fixed;
   top: 0;
@@ -111,7 +131,6 @@
   padding-right: var(--tab-drawer-pad-x);
   background: #ffffff;
   border: none;
-  border-right: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: none;
   transform: translateX(-100%);
   transition: transform var(--tab-drawer-ms) var(--tab-drawer-ease);
@@ -127,16 +146,12 @@
   flex-direction: column;
   gap: 2px;
   min-width: 0;
-  padding: 84px 0 24px;
+  padding: var(--app-header-height) 0 24px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tabMenuBackdrop {
-    transition-duration: 0.01ms;
-  }
-
   .tabMenuDrawer {
     --tab-drawer-ms: 0.01ms;
   }
@@ -144,6 +159,10 @@
   .tabMenuLogo path {
     transition-duration: 0.01ms;
     transition-delay: 0s;
+  }
+
+  .tabMenuWordmark {
+    transition-duration: 200ms;
   }
 }
 
@@ -175,7 +194,8 @@
 .tabMenuDrawer .tabMenuLink {
   box-sizing: border-box;
   width: 100%;
-  padding: 6px 4px;
-  letter-spacing: 0.035em;
+  padding: 8px 2px;
+  letter-spacing: 0.02em;
   font-size: var(--tab-menu-link-font-size);
+  white-space: nowrap;
 }

@@ -36,7 +36,7 @@ export function supabaseEntity() {
   return supabase.schema('entity')
 }
 
-/** PostgREST: catalog.locations, catalog.states, catalog.countries, catalog.typologies, catalog.person_types */
+/** PostgREST: catalog.locations, catalog.states, catalog.countries, catalog.typologies, catalog.person_types, catalog.project_types */
 export function supabaseCatalog() {
   return supabase.schema('catalog')
 }

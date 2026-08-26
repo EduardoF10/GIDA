@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { fetchJson } from '../../lib/api'
 import ProjectItem, { type ProjectListItem } from './ProjectItem'
 import './Projects.css'
@@ -21,11 +22,21 @@ function toListItem(row: ProjectApiRow): ProjectListItem {
   }
 }
 
+function parsePositiveInt(value: string | null): number | null {
+  if (!value) return null
+  const parsed = Number.parseInt(value, 10)
+  if (!Number.isInteger(parsed) || parsed <= 0) return null
+  return parsed
+}
+
 type ProjectListProps = {
   heading?: string
 }
 
 export default function ProjectList({ heading = 'Projects' }: ProjectListProps) {
+  const [searchParams] = useSearchParams()
+  const typeCode = parsePositiveInt(searchParams.get('type'))
+  const typologyId = parsePositiveInt(searchParams.get('typology'))
   const [projects, setProjects] = useState<ProjectListItem[]>([])
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -35,7 +46,12 @@ export default function ProjectList({ heading = 'Projects' }: ProjectListProps) 
 
     async function load() {
       try {
-        const rows = await fetchJson<ProjectApiRow[]>('/api/projects')
+        const params = new URLSearchParams()
+        if (typeCode != null) params.set('type', String(typeCode))
+        if (typologyId != null) params.set('typology', String(typologyId))
+        const query = params.toString()
+        const path = query ? `/api/projects?${query}` : '/api/projects'
+        const rows = await fetchJson<ProjectApiRow[]>(path)
         if (cancelled) return
         setError(null)
         setProjects(rows.map(toListItem))
@@ -52,7 +68,7 @@ export default function ProjectList({ heading = 'Projects' }: ProjectListProps) 
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [typeCode, typologyId])
 
   if (loading) {
     return (
@@ -78,7 +94,11 @@ export default function ProjectList({ heading = 'Projects' }: ProjectListProps) 
     return (
       <section className="projectListPage">
         <h1 className="projectListHeading">{heading}</h1>
-        <p className="projectListStatus">No published projects yet.</p>
+        <p className="projectListStatus">
+          {typeCode == null && typologyId == null
+            ? 'No published projects yet.'
+            : 'No projects in this category.'}
+        </p>
       </section>
     )
   }

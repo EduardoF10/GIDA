@@ -13,14 +13,32 @@ function parseId(value) {
   return id;
 }
 
+function parseOptionalPositiveInt(value, label) {
+  if (value == null || value === "") {
+    return null;
+  }
+  const parsed = Number.parseInt(String(value), 10);
+  if (!Number.isInteger(parsed) || parsed <= 0) {
+    const error = new Error(`Invalid ${label}`);
+    error.statusCode = 400;
+    throw error;
+  }
+  return parsed;
+}
+
 function sendError(res, err, fallbackStatus) {
   const status = err.statusCode || fallbackStatus;
   res.status(status).json({ error: err.message });
 }
 
-router.get("/", async (_req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const projects = await Project.findAll();
+    const typeCode = parseOptionalPositiveInt(req.query.type, "project type");
+    const typologyId = parseOptionalPositiveInt(
+      req.query.typology,
+      "project typology",
+    );
+    const projects = await Project.findByFilters({ typeCode, typologyId });
     res.status(200).json(projects);
   } catch (err) {
     sendError(res, err, 500);
