@@ -2,6 +2,60 @@
   width: 100%;
 }
 
+.projectPageSwap {
+  position: fixed;
+  top: var(--app-header-height);
+  right: var(--app-scroll-lock-pad, 0px);
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.projectPageSwap__stage {
+  --project-swap-ms: 0.32s;
+  --project-swap-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  transform: translate3d(0, 0, 0);
+}
+
+.projectPageSwap__stage--exiting {
+  transform: translate3d(0, -100%, 0);
+  transition: transform var(--project-swap-ms) var(--project-swap-ease);
+  pointer-events: none;
+}
+
+.projectPageSwap__stage--enterFrom,
+.projectPageSwap__stage--awaiting {
+  transform: translate3d(0, -100%, 0);
+  pointer-events: none;
+}
+
+.projectPageSwap__stage--entering {
+  transform: translate3d(0, 0, 0);
+  transition: transform var(--project-swap-ms) var(--project-swap-ease);
+  pointer-events: none;
+}
+
+.projectPageSwap__scroll {
+  box-sizing: border-box;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding: 12px 20px 48px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projectPageSwap__stage--exiting,
+  .projectPageSwap__stage--enterFrom,
+  .projectPageSwap__stage--awaiting,
+  .projectPageSwap__stage--entering {
+    transform: none;
+    transition: none;
+  }
+}
+
 .projectListHeading {
   position: absolute;
   width: 1px;

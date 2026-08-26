@@ -1,5 +1,6 @@
 import { useEffect, useState, type TransitionEvent } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import searchIconUrl from '../../assets/search_icon.svg'
 import { fetchJson } from '../../lib/api'
 import './ProjectTypeFilter.css'
 
@@ -30,6 +31,7 @@ export default function ProjectTypeFilter() {
   const [panelEntered, setPanelEntered] = useState(false)
   const [types, setTypes] = useState<ProjectTypeRow[]>([])
   const [expandedCode, setExpandedCode] = useState<number | null>(null)
+  const [query, setQuery] = useState('')
   const selectedType = parsePositiveInt(searchParams.get('type'))
   const selectedTypology = parsePositiveInt(searchParams.get('typology'))
   const hasFilter = selectedType != null || selectedTypology != null
@@ -67,6 +69,7 @@ export default function ProjectTypeFilter() {
     }
 
     setPanelEntered(false)
+    setQuery('')
     const t = window.setTimeout(() => setPanelMounted(false), 450)
     return () => window.clearTimeout(t)
   }, [open])
@@ -84,9 +87,10 @@ export default function ProjectTypeFilter() {
     if (!open) setPanelMounted(false)
   }
 
-  function applyFilter(typeCode: number, typologyId: number | null) {
+  function applyFilter(typeCode: number | null, typologyId: number | null) {
     const next = new URLSearchParams(searchParams)
-    next.set('type', String(typeCode))
+    if (typeCode == null) next.delete('type')
+    else next.set('type', String(typeCode))
     if (typologyId == null) next.delete('typology')
     else next.set('typology', String(typologyId))
     setSearchParams(next, { replace: true })
@@ -96,6 +100,19 @@ export default function ProjectTypeFilter() {
   function toggleExpanded(code: number) {
     setExpandedCode((current) => (current === code ? null : code))
   }
+
+  const search = query.trim().toLowerCase()
+  const visibleTypes = search
+    ? types.flatMap((type) => {
+        const typeMatch = type.description_en.toLowerCase().includes(search)
+        const typologies = (type.typologies ?? []).filter((typology) =>
+          typology.description_en.toLowerCase().includes(search),
+        )
+        if (typeMatch) return [type]
+        if (typologies.length > 0) return [{ ...type, typologies }]
+        return []
+      })
+    : types
 
   return (
     <div className="projectTypeFilter">
@@ -123,15 +140,46 @@ export default function ProjectTypeFilter() {
             className={`projectTypeFilterPanel${panelEntered ? ' projectTypeFilterPanel--open' : ''}`}
             onTransitionEnd={onPanelTransitionEnd}
           >
+            <label className="projectTypeFilterSearch">
+              <img
+                className="projectTypeFilterSearchIcon"
+                src={searchIconUrl}
+                alt=""
+                width={16}
+                height={16}
+              />
+              <input
+                type="search"
+                className="projectTypeFilterSearchInput"
+                placeholder="Search"
+                aria-label="Search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                autoComplete="off"
+                spellCheck={false}
+              />
+            </label>
             <ul
               id="project-type-filter-menu"
               className="projectTypeFilterMenu"
               aria-label="Project types"
             >
-              {types.map((type) => {
+              <li>
+                <button
+                  type="button"
+                  aria-current={!hasFilter ? 'true' : undefined}
+                  className={`projectTypeFilterOption${!hasFilter ? ' projectTypeFilterOption--active' : ''}`}
+                  onClick={() => applyFilter(null, null)}
+                >
+                  View All
+                </button>
+              </li>
+              {visibleTypes.map((type) => {
                 const typologies = type.typologies ?? []
                 const hasTypologies = typologies.length > 0
-                const isExpanded = expandedCode === type.code
+                const isExpanded = search
+                  ? hasTypologies
+                  : expandedCode === type.code
                 const typeActive = selectedType === type.code
                 const viewAllActive = typeActive && selectedTypology == null
                 return (

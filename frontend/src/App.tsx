@@ -1,5 +1,5 @@
 import './App.css'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import IntroSplash from './pages/intro/IntroSplash.tsx'
 import Tabs from './components/tabs/Tabs.tsx'
 import About from './pages/About.tsx'
@@ -13,12 +13,15 @@ import AdminProjectsList from './pages/admin/ProjectsList.tsx'
 import AdminProjectEdit from './pages/admin/ProjectEdit.tsx'
 
 function App() {
+  const { pathname } = useLocation()
+  const projectsPage = pathname === '/projects'
+
   return (
     <>
       <IntroSplash />
       <div className="appLayout">
       <Tabs />
-      <main className="pageContent">
+      <main className={`pageContent${projectsPage ? ' pageContent--projects' : ''}`}>
         <Routes>
           <Route path="/" element={<Navigate to="/projects" replace />} />
           <Route path="/projects" element={<Projects />} />
