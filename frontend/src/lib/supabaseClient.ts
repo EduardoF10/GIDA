@@ -31,7 +31,7 @@ export const supabase: SupabaseClient = new Proxy({} as SupabaseClient, {
   },
 })
 
-/** PostgREST: entity.projects, entity.project_contents, entity.project_texts */
+/** PostgREST: entity.projects, entity.published_projects_v, entity.project_types_v */
 export function supabaseEntity() {
   return supabase.schema('entity')
 }
