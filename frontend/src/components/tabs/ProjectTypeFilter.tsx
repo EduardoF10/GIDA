@@ -1,21 +1,8 @@
 import { useEffect, useState, type TransitionEvent } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import searchIconUrl from '../../assets/search_icon.svg'
-import { fetchJson } from '../../lib/api'
+import { fetchProjectTypes, type ProjectTypeRow } from '../../lib/api'
 import './ProjectTypeFilter.css'
-
-type TypologyRow = {
-  id: number
-  description_en: string
-  description_es: string
-}
-
-type ProjectTypeRow = {
-  code: number
-  description_en: string
-  description_es: string
-  typologies?: TypologyRow[]
-}
 
 function parsePositiveInt(value: string | null): number | null {
   if (!value) return null
@@ -40,7 +27,7 @@ export default function ProjectTypeFilter() {
     let cancelled = false
     async function load() {
       try {
-        const rows = await fetchJson<ProjectTypeRow[]>('/api/project-types')
+        const rows = await fetchProjectTypes()
         if (!cancelled) setTypes(rows)
       } catch {
         if (!cancelled) setTypes([])

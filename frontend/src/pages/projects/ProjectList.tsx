@@ -1,17 +1,8 @@
 import { useEffect, useRef, useState, type TransitionEvent } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { fetchJson } from '../../lib/api'
+import { fetchPublishedProjects, type ProjectListRow } from '../../lib/api'
 import ProjectItem, { type ProjectListItem } from './ProjectItem'
 import './Projects.css'
-
-type ProjectApiRow = {
-  id: number
-  title: string
-  location_name_en: string | null
-  state_name_en: string | null
-  image_url: string | null
-  icon_url: string | null
-}
 
 type ListView = {
   projects: ProjectListItem[]
@@ -20,14 +11,14 @@ type ListView = {
 
 type SwapStage = 'idle' | 'exiting' | 'awaiting' | 'enterFrom' | 'entering'
 
-function formatLocationLabel(row: ProjectApiRow): string {
+function formatLocationLabel(row: ProjectListRow): string {
   return [row.location_name_en, row.state_name_en]
     .map((part) => part?.trim())
     .filter((part): part is string => Boolean(part))
     .join(', ')
 }
 
-function toListItem(row: ProjectApiRow): ProjectListItem {
+function toListItem(row: ProjectListRow): ProjectListItem {
   return {
     id: row.id,
     title: row.title,
@@ -90,12 +81,7 @@ export default function ProjectList({ heading = 'Projects' }: ProjectListProps) 
 
     async function load() {
       try {
-        const params = new URLSearchParams()
-        if (typeCode != null) params.set('type', String(typeCode))
-        if (typologyId != null) params.set('typology', String(typologyId))
-        const query = params.toString()
-        const path = query ? `/api/projects?${query}` : '/api/projects'
-        const rows = await fetchJson<ProjectApiRow[]>(path)
+        const rows = await fetchPublishedProjects({ typeCode, typologyId })
         if (cancelled || id !== requestId.current) return
 
         const next: ListView = {
